@@ -6,9 +6,10 @@ import authRouter from './routes/auth.route.js';
 import userRouter from './routes/user.routes.js';
 import listingRouter from './routes/listing.route.js';
 import cookieParser from 'cookie-parser'
-
+import path from 'path';
 //import cookieParser from "cookie-parser";
 dotenv.config();
+const _dirname=path.resolve();
 //console.log(process.env.MONGO);
 mongoose.connect(process.env.MONGO).then(()=>{
     console.log("connected");
@@ -36,6 +37,10 @@ app.listen(PORT, () => {
 app.use('/api/auth',authRouter)
 app.use('/api/user',userRouter)
 app.use('/api/listing',listingRouter);
+app.use(express.static(path.join(_dirname,'/client/dist')));
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(_dirname,'client','dist','index.html'));
+})
 app.use((err,req,res,next)=>{
     const statusCode=err.statusCode||500;
     const message=err.message||'internal server error';
