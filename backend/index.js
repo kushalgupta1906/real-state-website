@@ -25,9 +25,14 @@ app.use(cookieParser());
 app.use(express.json())
 app.use(express.urlencoded({extended: true, limit: "20mb"}))
 app.use(express.static("backend/public"))
-app.listen(5002, ()=>{
-    console.log('server is running on port 5000!!')
-})
+// app.listen(5002, ()=>{
+//     console.log('server is running on port 5000!!')
+// })
+const PORT = process.env.PORT || 5002;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 app.use('/api/auth',authRouter)
 app.use('/api/user',userRouter)
 app.use('/api/listing',listingRouter);
